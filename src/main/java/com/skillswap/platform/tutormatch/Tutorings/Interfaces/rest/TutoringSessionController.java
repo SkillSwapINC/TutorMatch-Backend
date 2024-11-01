@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * REST controller for managing tutoring sessions.
  */
 @RestController
-@RequestMapping(value = "/api/v1/tutoring", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/tutorings", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Tutorings", description = "Tutoring Management Endpoints")
 public class TutoringSessionController {
 
