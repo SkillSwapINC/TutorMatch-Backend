@@ -12,4 +12,4 @@ public record UserResource(Long id,
                            String gender,
                            int semester,
                            RoleType roleType,
-                           Integer tutorId) {}
+                           Long tutorId) {}
