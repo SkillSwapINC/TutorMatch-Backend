@@ -31,4 +31,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return a {@link List} of {@link User} objects that match the specified role
      */
     List<User> findByRoleRoleType(RoleType roleType);
+
+    /**
+     * Retrieves a user by their tutor ID.
+     *
+     * @param tutorId the tutor ID of the user to be retrieved
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the tutor ID
+     */
+    Optional<User> findByTutorId(Long tutorId);
 }
