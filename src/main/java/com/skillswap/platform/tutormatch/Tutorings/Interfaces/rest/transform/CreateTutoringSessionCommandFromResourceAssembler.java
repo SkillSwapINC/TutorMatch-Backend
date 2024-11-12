@@ -16,13 +16,14 @@ public class CreateTutoringSessionCommandFromResourceAssembler {
      */
     public static CreateTutoringSessionCommand toCommandFromResource(CreateTutoringSessionResource resource) {
         return new CreateTutoringSessionCommand(
-                resource.title(),
+                resource.courseName(),
                 resource.description(),
                 resource.price(),
                 resource.times(),
                 resource.image(),
                 resource.tutorId(),
-                resource.courseId()
+                resource.courseId(),
+                resource.course()
 
         );
     }

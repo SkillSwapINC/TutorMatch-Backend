@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Represents the resource for a tutoring session.
  * @param id          the unique identifier of the tutoring session
- * @param title       the title of the tutoring session
+ * @param courseName       the title of the tutoring session
  * @param description a brief description of the tutoring session
  * @param price       the price for the tutoring session
  * @param times       a list of available time slots for the tutoring session
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public record TutoringSessionResource(
         Long id,
-        String title,
+        String courseName,
         String description,
         Double price,
         List<DailySchedule> times,

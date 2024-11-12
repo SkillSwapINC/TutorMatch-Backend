@@ -17,13 +17,13 @@ public class TutoringSessionResourceFromEntityAssembler {
     public static TutoringSessionResource toResourceFromEntity(TutoringSession entity) {
         return new TutoringSessionResource(
                 entity.getId(),
-                entity.getTitle(),
+                entity.getCourseName(),
                 entity.getDescription(),
                 entity.getPrice(),
                 entity.getTimes(),
                 entity.getImage(),
                 entity.getTutorId(),
-                entity.getCourseId()
+                entity.getCourse().getId()
         );
     }
 }
