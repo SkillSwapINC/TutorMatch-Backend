@@ -4,9 +4,11 @@ import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.CreateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.UpdateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.EmailAddress;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserCommandService;
 import com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -35,12 +37,18 @@ public class UserCommandServiceImpl implements UserCommandService {
      * @throws IllegalArgumentException if a user with the specified email already exists.
      */
     @Override
+    @Transactional
     public Optional<User> handle(CreateUserCommand command) {
         var emailAddress = new EmailAddress(command.email());
         userRepository.findByEmail(emailAddress).ifPresent(user -> {
             throw new IllegalArgumentException("User with this email " + command.email() + " already exists");
         });
         var user = new User(command);
+
+        if (command.roleType() == RoleType.teacher) {
+            Long nextTutorId = userRepository.findMaxTutorId().orElse(0L) + 1;
+            user.setTutorId(nextTutorId);
+        }
         userRepository.save(user);
         return Optional.of(user);
 
