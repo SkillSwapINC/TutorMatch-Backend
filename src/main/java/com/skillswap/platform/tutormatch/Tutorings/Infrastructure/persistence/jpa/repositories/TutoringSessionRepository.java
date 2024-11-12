@@ -13,13 +13,15 @@ import java.util.List;
  */
 @Repository
 public interface TutoringSessionRepository extends JpaRepository<TutoringSession, Long> {
+
     /**
-     * Finds a list of tutoring sessions associated with a specific course.
+     * Find tutoring sessions associated with a specific tutor and course.
      *
-     * @param courseId The ID of the course to filter tutoring sessions.
-     * @return A list of {@link TutoringSession} entities that are associated
-     * with the specified course ID.
+     * @param tutorId The tutor ID.
+     * @param courseId The course ID.
+     * @return A list of tutoring sessions associated with the provided tutor and course.
      */
-    List<TutoringSession> findByCourseId(Long courseId);
+    List<TutoringSession> findByTutorIdAndCourseId(Long tutorId, Long courseId);
+
 
 }
