@@ -7,7 +7,8 @@ import com.skillswap.platform.tutormatch.shared.domain.model.aggregates.Auditabl
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PostPersist;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a user within the system, containing personal information and role details.
@@ -40,8 +41,9 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     @Embedded
     private Role role;
 
-
-    @Column(insertable=false, updatable=false)
+    @Setter
+    @Getter
+    @Column(unique = true)
     private Long tutorId;
 
 
@@ -76,13 +78,6 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     }
 
     public User() {}
-
-    @PostPersist
-    private void generateTutorId() {
-        if (this.role.roleType() == RoleType.teacher && this.tutorId == null) {
-            this.tutorId = getId();
-        }
-    }
 
     /**
      * Updates the user's attributes based on the provided command.
@@ -120,10 +115,7 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     }
 
     public RoleType getRoleType() {
-        return role.roleType();
+        return role.getRoleType();
     }
 
-    public Long getTutorId() {
-        return role.tutorId();
-    }
 }
