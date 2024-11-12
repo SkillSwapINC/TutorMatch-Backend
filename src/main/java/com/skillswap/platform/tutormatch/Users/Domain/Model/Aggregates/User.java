@@ -1,6 +1,7 @@
 package com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates;
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.CreateUserCommand;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.UpdateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.*;
 import com.skillswap.platform.tutormatch.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.Column;
@@ -83,18 +84,20 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         }
     }
 
-
-    public void updateAvatar(String avatarUrl) {
-        this.avatar = new Avatar(avatarUrl);
+    /**
+     * Updates the user's attributes based on the provided command.
+     *
+     * <p>This method extracts the necessary information from the `UpdateUserCommand` object and updates the user's
+     * avatar, gender, and semester attributes.
+     *
+     * @param command the command containing the new user attributes
+     */
+    public void updateUserAttributes(UpdateUserCommand command) {
+        this.avatar = new Avatar(command.avatarUrl());
+        this.gender = new Gender(command.gender());
+        this.semester = new Semester(command.semester());
     }
 
-    public void updateGender(String gender) {
-        this.gender = new Gender(gender);
-    }
-
-    public void updateSemester(int semester) {
-        this.semester = new Semester(semester);
-    }
 
     public String getFullName() {
         return name.getFullName();

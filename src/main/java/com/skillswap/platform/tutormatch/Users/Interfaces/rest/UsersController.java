@@ -8,8 +8,10 @@ import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleTyp
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserCommandService;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserQueryService;
 import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.CreateUserResource;
+import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.UpdateUserResource;
 import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.UserResource;
 import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.CreateUserCommandFromResourceAssembler;
+import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.UpdateUserCommandFromResourceAssembler;
 import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.UserResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -143,6 +145,26 @@ public class UsersController {
                 .map(UserResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(userResources);
+    }
+
+    /**
+     * Updates a user.
+     *
+     * @param userId the id of the user to be updated
+     * @param updateUserResource the resource containing the data for the user to be updated
+     * @return the updated user resource
+     */
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserResource> updateUser(@PathVariable Long userId, @RequestBody UpdateUserResource updateUserResource) {
+        var updateUserCommand = UpdateUserCommandFromResourceAssembler.toCommandFromResource(userId, updateUserResource);
+        var updatedUser = userCommandService.handle(updateUserCommand);
+
+        if (updatedUser.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(updatedUser.get());
+        return ResponseEntity.ok(userResource);
     }
 }
 
