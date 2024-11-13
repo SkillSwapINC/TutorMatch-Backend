@@ -51,6 +51,8 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+    private int cycle;
+
     protected TutoringSession() {}
 
     /**
@@ -69,7 +71,7 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
         this.image = command.image();
         this.tutorId = command.tutorId();
         this.course = course;
-
+        this.cycle = course.getCycle();
         if (!this.courseName.equals(course.getName())) {
             throw new IllegalArgumentException("Course name does not match the courseId provided.");
         }
