@@ -23,5 +23,11 @@ public interface TutoringSessionRepository extends JpaRepository<TutoringSession
      */
     List<TutoringSession> findByTutorIdAndCourseId(Long tutorId, Long courseId);
 
-
+    /**
+     * Finds tutoring sessions associated with a specific cycle.
+     *
+     * @param cycle The cycle number to filter by.
+     * @return A list of tutoring sessions belonging to the specified cycle.
+     */
+    List<TutoringSession> findByCycle(int cycle);
 }
