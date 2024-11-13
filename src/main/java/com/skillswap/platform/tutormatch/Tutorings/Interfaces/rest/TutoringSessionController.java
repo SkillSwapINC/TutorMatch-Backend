@@ -1,6 +1,8 @@
 package com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest;
 
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsQuery;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionCommandService;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionQueryService;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.CreateTutoringSessionResource;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.TutoringSessionResource;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.CreateTutoringSessionCommandFromResourceAssembler;
@@ -18,6 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * REST controller for managing tutoring sessions.
  */
@@ -27,9 +32,11 @@ import org.springframework.web.bind.annotation.*;
 public class TutoringSessionController {
 
     private final TutoringSessionCommandService tutoringSessionCommandService;
+    private final TutoringSessionQueryService tutoringSessionQueryService;
 
-    public TutoringSessionController(TutoringSessionCommandService tutoringSessionCommandService) {
+    public TutoringSessionController(TutoringSessionCommandService tutoringSessionCommandService, TutoringSessionQueryService tutoringSessionQueryService) {
         this.tutoringSessionCommandService = tutoringSessionCommandService;
+        this.tutoringSessionQueryService = tutoringSessionQueryService;
     }
 
     /**
@@ -83,5 +90,27 @@ public class TutoringSessionController {
 
         var tutoringResource = TutoringSessionResourceFromEntityAssembler.toResourceFromEntity(tutoring.get());
         return new ResponseEntity<>(tutoringResource, HttpStatus.CREATED);
+    }
+
+    /**
+     * REST endpoint to retrieve all available tutoring sessions.
+     *
+     * @return A list of {@link TutoringSessionResource} objects representing all tutoring sessions.
+     */
+    @Operation(
+            summary = "Get all Tutoring",
+            description = "Get all Tutoring with the provided data")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Tutoring Found"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @GetMapping
+    public ResponseEntity<List<TutoringSessionResource>> getAllTutorings() {
+        var getAllTutoringsQuery = new GetAllTutoringsQuery();
+        var tutoring = tutoringSessionQueryService.handle(getAllTutoringsQuery);
+        var tutoringResources = tutoring.stream()
+                .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(tutoringResources, HttpStatus.OK);
     }
 }
