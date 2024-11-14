@@ -2,6 +2,7 @@ package com.skillswap.platform.tutormatch.Tutorings.Domain.Services;
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate.TutoringSession;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.CreateTutoringSessionCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.DeleteTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
 
 import java.util.Optional;
@@ -32,4 +33,12 @@ public interface TutoringSessionCommandService {
      */
 
     Optional<TutoringSession> handle(UpdateTutoringCommand command);
+
+    /**
+     * Handles the deletion of a tutoring session based on the provided command.
+     * @param command The {@link DeleteTutoringCommand} containing
+     * @see DeleteTutoringCommand
+     */
+
+    void handle(DeleteTutoringCommand command);
 }

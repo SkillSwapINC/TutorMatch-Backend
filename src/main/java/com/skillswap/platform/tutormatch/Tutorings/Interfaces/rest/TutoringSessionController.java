@@ -1,5 +1,6 @@
 package com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest;
 
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.DeleteTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsByTutorId;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsQuery;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetTutoringById;
@@ -151,4 +152,17 @@ public class TutoringSessionController {
         return ResponseEntity.ok(tutoringResource);
     }
 
+    /**
+     * Deletes a tutoring session with the provided ID.
+     *
+     * @param tutoringId the ID of the tutoring session to delete
+     * @return a response entity containing a message confirming the deletion
+     */
+
+    @DeleteMapping("/tutorings/{tutoringId}")
+    public ResponseEntity<?> deleteTutoring(@PathVariable Long tutoringId) {
+        var deleteTutoringCommand = new DeleteTutoringCommand(tutoringId);
+        tutoringSessionCommandService.handle(deleteTutoringCommand);
+        return ResponseEntity.ok("Tutoring with given id successfully deleted");
+    }
 }
