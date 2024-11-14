@@ -7,8 +7,14 @@ import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessi
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionQueryService;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.CreateTutoringSessionResource;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.TutoringSessionResource;
+import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.UpdateTutoringSessionResource;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.CreateTutoringSessionCommandFromResourceAssembler;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.TutoringSessionResourceFromEntityAssembler;
+import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.UpdateTutoringSessionCommandFromResourceAssembler;
+import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.UpdateUserResource;
+import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.UserResource;
+import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.UpdateUserCommandFromResourceAssembler;
+import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.UserResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -135,4 +141,18 @@ public class TutoringSessionController {
                 .collect(Collectors.toList());
         return new ResponseEntity<>(tutoringResources, HttpStatus.OK);
     }
+
+    @PatchMapping("/tutorings/{tutoringId}")
+    public ResponseEntity<TutoringSessionResource> updateTutoring(@PathVariable Long tutoringId, @RequestBody UpdateTutoringSessionResource updateTutoringResource) {
+        var updateTutoringCommand = UpdateTutoringSessionCommandFromResourceAssembler.toCommand(tutoringId, updateTutoringResource);
+        var updatedTutoring = tutoringSessionCommandService.handle(updateTutoringCommand);
+
+        if (updatedTutoring.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var tutoringResource = TutoringSessionResourceFromEntityAssembler.toResourceFromEntity(updatedTutoring.get());
+        return ResponseEntity.ok(tutoringResource);
+    }
+
 }
