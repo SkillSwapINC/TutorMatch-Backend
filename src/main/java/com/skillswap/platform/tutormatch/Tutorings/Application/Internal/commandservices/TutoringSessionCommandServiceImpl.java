@@ -2,6 +2,7 @@ package com.skillswap.platform.tutormatch.Tutorings.Application.Internal.command
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate.TutoringSession;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.CreateTutoringSessionCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.DeleteTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.Course;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionCommandService;
@@ -87,6 +88,15 @@ public class TutoringSessionCommandServiceImpl implements TutoringSessionCommand
         return Optional.of(session);
     }
 
+    /**
+     * Handles the update of an existing tutoring session based on the provided command.
+     * Validates that the tutoring session exists.
+     *
+     * @param command the command containing the details to update the tutoring session
+     * @return an Optional containing the updated TutoringSession, or empty if update fails
+     * @throws IllegalArgumentException if the specified tutoring session does not exist
+     */
+
     @Override
     public Optional<TutoringSession> handle(UpdateTutoringCommand command) {
 
@@ -98,6 +108,30 @@ public class TutoringSessionCommandServiceImpl implements TutoringSessionCommand
         tutoringSessionRepository.save(session);
 
         return Optional.of(session);
+    }
+
+    /**
+     * Handles the deletion of an existing tutoring session based on the provided command.
+     * Validates that the tutoring session exists.
+     *
+     * @param command the command containing the tutoring session ID to delete
+     *                Cannot be null or less than 1
+     * @throws IllegalArgumentException if the specified tutoring session does not exist
+     * or an error occurs while deleting the tutoring session
+     * @see DeleteTutoringCommand
+     */
+
+    @Override
+    public void handle(DeleteTutoringCommand command) {
+
+        if(!tutoringSessionRepository.existsById(command.tutoringId())){
+            throw new IllegalArgumentException("Invalid tutoringId: Tutoring session does not exist.");
+        }
+        try {
+            tutoringSessionRepository.deleteById(command.tutoringId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting tutoring session: %s".formatted(e.getMessage()));
+        }
     }
 
 }
