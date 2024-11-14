@@ -2,11 +2,13 @@ package com.skillswap.platform.tutormatch.Tutorings.Application.Internal.command
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate.TutoringSession;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.CreateTutoringSessionCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.Course;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionCommandService;
 import com.skillswap.platform.tutormatch.Tutorings.Infrastructure.persistence.jpa.repositories.CourseRepository;
 import com.skillswap.platform.tutormatch.Tutorings.Infrastructure.persistence.jpa.repositories.TutoringSessionRepository;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.UpdateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -81,6 +83,19 @@ public class TutoringSessionCommandServiceImpl implements TutoringSessionCommand
         }
 
         TutoringSession session = new TutoringSession(command,course);
+        tutoringSessionRepository.save(session);
+
+        return Optional.of(session);
+    }
+
+    @Override
+    public Optional<TutoringSession> handle(UpdateTutoringCommand command) {
+
+        TutoringSession session = tutoringSessionRepository.findById(command.tutoringSessionId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid tutoringSessionId: Tutoring session does not exist."));
+
+        session.updateTutoringSessionAttributes(command);
+
         tutoringSessionRepository.save(session);
 
         return Optional.of(session);
