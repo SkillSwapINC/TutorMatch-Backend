@@ -1,6 +1,5 @@
 package com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform;
 
-import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate.TutoringSession;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.UpdateTutoringSessionResource;
 

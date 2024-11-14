@@ -11,10 +11,6 @@ import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.Upd
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.CreateTutoringSessionCommandFromResourceAssembler;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.TutoringSessionResourceFromEntityAssembler;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.transform.UpdateTutoringSessionCommandFromResourceAssembler;
-import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.UpdateUserResource;
-import com.skillswap.platform.tutormatch.Users.Interfaces.rest.resources.UserResource;
-import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.UpdateUserCommandFromResourceAssembler;
-import com.skillswap.platform.tutormatch.Users.Interfaces.rest.transform.UserResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;

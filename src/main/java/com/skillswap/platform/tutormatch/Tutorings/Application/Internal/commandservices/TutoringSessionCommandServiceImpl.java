@@ -8,7 +8,6 @@ import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessi
 import com.skillswap.platform.tutormatch.Tutorings.Infrastructure.persistence.jpa.repositories.CourseRepository;
 import com.skillswap.platform.tutormatch.Tutorings.Infrastructure.persistence.jpa.repositories.TutoringSessionRepository;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.UpdateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
