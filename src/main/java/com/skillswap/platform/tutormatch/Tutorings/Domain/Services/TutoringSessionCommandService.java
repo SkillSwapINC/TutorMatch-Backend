@@ -2,6 +2,7 @@ package com.skillswap.platform.tutormatch.Tutorings.Domain.Services;
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate.TutoringSession;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.CreateTutoringSessionCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
 
 import java.util.Optional;
 
@@ -20,4 +21,15 @@ public interface TutoringSessionCommandService {
      * if successful, or an empty {@link Optional} if not.
      */
     Optional<TutoringSession> handle(CreateTutoringSessionCommand command);
+
+    /**
+     * Handles the update of an existing tutoring session based on the provided command.
+     *
+     * @param command The {@link UpdateTutoringCommand} containing
+     * the details needed to update a tutoring session.
+     * @return An {@link Optional} containing the updated {@link TutoringSession}
+     * if successful, or an empty {@link Optional} if not.
+     */
+
+    Optional<TutoringSession> handle(UpdateTutoringCommand command);
 }
