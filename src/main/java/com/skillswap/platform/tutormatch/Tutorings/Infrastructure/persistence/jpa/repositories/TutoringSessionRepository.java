@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository interface for managing {@link TutoringSession} entities.
@@ -30,4 +31,20 @@ public interface TutoringSessionRepository extends JpaRepository<TutoringSession
      * @return A list of tutoring sessions belonging to the specified cycle.
      */
     List<TutoringSession> findByCycle(int cycle);
+
+    /**
+     * Finds all tutoring sessions conducted by a specific tutor.
+     *
+     * @param tutorId The ID of the tutor.
+     * @return A list of tutoring sessions associated with the given tutor.
+     */
+    List<TutoringSession> findTutoringByTutorId(Long tutorId);
+
+    /**
+     * Finds a specific tutoring session by its ID.
+     *
+     * @param id The ID of the tutoring session to find.
+     * @return An Optional containing the found tutoring session, or an empty Optional if not found.
+     */
+    Optional<TutoringSession> findById(Long id);
 }
