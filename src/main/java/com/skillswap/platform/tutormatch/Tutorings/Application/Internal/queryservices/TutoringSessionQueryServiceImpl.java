@@ -1,13 +1,16 @@
 package com.skillswap.platform.tutormatch.Tutorings.Application.Internal.queryservices;
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate.TutoringSession;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsByTutorId;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsQuery;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetTutoringById;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetTutoringBySemesterId;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionQueryService;
 import com.skillswap.platform.tutormatch.Tutorings.Infrastructure.persistence.jpa.repositories.TutoringSessionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service implementation for querying tutoring sessions.
@@ -45,6 +48,18 @@ public class TutoringSessionQueryServiceImpl implements TutoringSessionQueryServ
     @Override
     public List<TutoringSession> handle(GetTutoringBySemesterId query){
         return tutoringSessionRepository.findByCycle(query.cycle());
+    }
+
+
+    @Override
+    public List<TutoringSession> handle(GetAllTutoringsByTutorId query) {
+        return tutoringSessionRepository.findTutoringByTutorId(query.tutorId());
+    }
+
+
+    @Override
+    public Optional<TutoringSession> handle(GetTutoringById query){
+        return tutoringSessionRepository.findById(query.id());
     }
 
 }
