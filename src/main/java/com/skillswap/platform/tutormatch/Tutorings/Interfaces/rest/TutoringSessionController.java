@@ -1,6 +1,8 @@
 package com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest;
 
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsByTutorId;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsQuery;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetTutoringById;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionCommandService;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionQueryService;
 import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.CreateTutoringSessionResource;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
  * REST controller for managing tutoring sessions.
  */
 @RestController
-@RequestMapping(value = "/api/v1/tutorings", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Tutorings", description = "Tutoring Management Endpoints")
 public class TutoringSessionController {
 
@@ -53,7 +55,7 @@ public class TutoringSessionController {
             @ApiResponse(responseCode = "201", description = "Tutoring created"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    @PostMapping
+    @PostMapping("/tutorings")
     public ResponseEntity<TutoringSessionResource> createTutoring(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Tutoring data",
@@ -104,10 +106,30 @@ public class TutoringSessionController {
             @ApiResponse(responseCode = "201", description = "Tutoring Found"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    @GetMapping
+    @GetMapping("/tutorings")
     public ResponseEntity<List<TutoringSessionResource>> getAllTutorings() {
         var getAllTutoringsQuery = new GetAllTutoringsQuery();
         var tutoring = tutoringSessionQueryService.handle(getAllTutoringsQuery);
+        var tutoringResources = tutoring.stream()
+                .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(tutoringResources, HttpStatus.OK);
+    }
+
+    @GetMapping("/tutor/{tutorId}/tutorings")
+    public ResponseEntity<List<TutoringSessionResource>> getTutoringByTutorId(@PathVariable long tutorId){
+        var getTutoringByTutorIdQuery = new GetAllTutoringsByTutorId(tutorId);
+        var tutoring = tutoringSessionQueryService.handle(getTutoringByTutorIdQuery);
+        var tutoringResources = tutoring.stream()
+                .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(tutoringResources, HttpStatus.OK);
+    }
+
+    @GetMapping("/tutorings/{id}")
+    public ResponseEntity<List<TutoringSessionResource>> getTutoringById(@PathVariable Long id) {
+        var getTutoringByIdQuery = new GetTutoringById(id);
+        var tutoring = tutoringSessionQueryService.handle(getTutoringByIdQuery);
         var tutoringResources = tutoring.stream()
                 .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
                 .collect(Collectors.toList());
