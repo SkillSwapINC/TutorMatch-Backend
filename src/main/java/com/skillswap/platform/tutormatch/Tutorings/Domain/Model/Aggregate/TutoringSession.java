@@ -1,8 +1,13 @@
 package com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate;
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.CreateTutoringSessionCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.Course;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.DailySchedule;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.UpdateUserCommand;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Avatar;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Gender;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Semester;
 import com.skillswap.platform.tutormatch.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -87,6 +92,12 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
         }
 
         this.times = defaultTimes;
+    }
+
+    public void updateTutoringSessionAttributes(UpdateTutoringCommand command) {
+        this.description = command.description();
+        this.price = command.price();
+        this.image = command.image();
     }
 
 }
