@@ -154,7 +154,7 @@ public class UsersController {
      * @param updateUserResource the resource containing the data for the user to be updated
      * @return the updated user resource
      */
-    @PutMapping("/{userId}")
+    @PatchMapping("/{userId}")
     public ResponseEntity<UserResource> updateUser(@PathVariable Long userId, @RequestBody UpdateUserResource updateUserResource) {
         var updateUserCommand = UpdateUserCommandFromResourceAssembler.toCommandFromResource(userId, updateUserResource);
         var updatedUser = userCommandService.handle(updateUserCommand);
