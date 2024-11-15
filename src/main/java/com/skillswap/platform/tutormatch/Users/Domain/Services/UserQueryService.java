@@ -3,6 +3,7 @@ package com.skillswap.platform.tutormatch.Users.Domain.Services;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmail;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserById;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
 
 import java.util.List;
@@ -37,4 +38,6 @@ public interface UserQueryService {
      * @return a {@link List} of all {@link User} objects currently stored
      */
     List<User> handle(GetAllUsersQuery query);
+
+    Optional<User> handle(GetUserById query);
 }

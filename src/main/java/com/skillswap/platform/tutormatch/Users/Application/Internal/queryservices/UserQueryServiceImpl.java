@@ -4,6 +4,7 @@ package com.skillswap.platform.tutormatch.Users.Application.Internal.queryservic
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmail;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserById;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserQueryService;
 import com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.repositories.UserRepository;
@@ -55,5 +56,10 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public List<User> handle(GetAllUsersQuery query) {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> handle(GetUserById query) {
+        return userRepository.findById(query.userId());
     }
 }

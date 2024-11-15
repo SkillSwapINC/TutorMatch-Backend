@@ -2,6 +2,7 @@ package com.skillswap.platform.tutormatch.Users.Interfaces.rest;
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmail;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserById;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.EmailAddress;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
@@ -164,6 +165,15 @@ public class UsersController {
         }
 
         var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(updatedUser.get());
+        return ResponseEntity.ok(userResource);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResource> getUser(@PathVariable Long userId) {
+        var getUserByIdQuery = new GetUserById(userId);
+        var user = userQueryService.handle(getUserByIdQuery);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
         return ResponseEntity.ok(userResource);
     }
 }
