@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfiguration {
     @Bean
-    public OpenAPI learningPlatformOpenApi() {
+    public OpenAPI SkillSwapPlatformOpenApi() {
         // General configuration
         var openApi = new OpenAPI();
         openApi
@@ -27,9 +27,10 @@ public class OpenApiConfiguration {
                         .description("SkillSwapINC TutorMatch wiki Documentation")
                         .url("https://github.com/SkillSwapINC/TutorMatch-Report"));
 
+
         // Add security scheme
 
-        /*final String securitySchemeName = "bearerAuth";
+        final String securitySchemeName = "bearerAuth";
 
         openApi.addSecurityItem(new SecurityRequirement()
                         .addList(securitySchemeName))
@@ -39,8 +40,7 @@ public class OpenApiConfiguration {
                                         .name(securitySchemeName)
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
-                                        .bearerFormat("JWT")));*/
-
+                                        .bearerFormat("JWT")));
         // Return OpenAPI configuration object with all the settings
 
         return openApi;
