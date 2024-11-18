@@ -68,13 +68,13 @@ public class DataInitializer {
         )));
 
         semesters.add(new Semester("Fourth", List.of(
-                new Course("IHC y Tecnologías Móviles", "Interacción Humano-Computadora y desarrollo móvil.", 4, null),
-                new Course("Diseño de Base de Datos", "Modelado y diseño de bases de datos.", 4, null)
+                new Course("Diseño de Base de Datos", "Modelado y diseño de bases de datos.", 4, null),
+                new Course("IHC y Tecnologías Móviles", "Interacción Humano-Computadora y desarrollo móvil.", 4, null)
         )));
 
         semesters.add(new Semester("Fifth", List.of(
-                new Course("Desarrollo de Aplicaciones Open Source", "Principios y prácticas del desarrollo Open Source.", 5, null),
-                new Course("Aplicaciones Web", "Desarrollo de aplicaciones para la web.", 5, null)
+                new Course("Aplicaciones Web", "Desarrollo de aplicaciones para la web.", 5, null),
+                new Course("Desarrollo de Aplicaciones Open Source", "Principios y prácticas del desarrollo Open Source.", 5, null)
         )));
 
         semesters.add(new Semester("Sixth", List.of(
