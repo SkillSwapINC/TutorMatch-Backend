@@ -12,22 +12,24 @@ import java.util.List;
  * including title, description,
  * price, available times, image, tutor ID, and course ID.
  *
- * @param courseName     The title of the tutoring session.
+ * @param title     The title of the tutoring session.
  * @param description The description of the tutoring session.
  * @param price     The price of the tutoring session.
  * @param times     A list of {@link DailySchedule} objects representing available
  * times for each day of the week.
  * Each {@link DailySchedule} specifies the day and available hours.
  * @param image     The URL or path to an image associated with the tutoring session.
+ * @param whatTheyWillLearn The description of what students will learn in this tutoring session.
  * @param tutorId   The ID of the tutor who offers this tutoring session.
  * @param course  The ID of the course associated with this tutoring session.
  */
 public record CreateTutoringSessionCommand(
-        String courseName,
+        String title,
         String description,
         Double price,
         List<DailySchedule> times,
         String image,
+        String whatTheyWillLearn,
         Long tutorId,
         Long courseId,
         Course course

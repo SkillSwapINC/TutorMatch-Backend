@@ -67,11 +67,11 @@ public class TutoringSessionCommandServiceImpl implements TutoringSessionCommand
         Course course = courseRepository.findById(command.courseId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid courseId: Course does not exist."));
 
-        if (command.courseName() == null || command.courseName().isEmpty()) {
+        if (command.title() == null || command.title().isEmpty()) {
             throw new IllegalArgumentException("Course name must not be empty.");
         }
 
-        if (!course.getName().trim().equals(command.courseName().trim())) {
+        if (!course.getName().trim().equals(command.title().trim())) {
             throw new IllegalArgumentException("Course name does not match the courseId provided.");
         }
 

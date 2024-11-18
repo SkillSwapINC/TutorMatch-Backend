@@ -5,6 +5,6 @@ import com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest.resources.Upd
 
 public class UpdateTutoringSessionCommandFromResourceAssembler {
     public static UpdateTutoringCommand toCommand(Long tutoringSessionId, UpdateTutoringSessionResource resource) {
-        return new UpdateTutoringCommand(tutoringSessionId, resource.description(), resource.price(), resource.image());
+        return new UpdateTutoringCommand(tutoringSessionId, resource.description(), resource.price(), resource.times(), resource.image(), resource.whatTheyWillLearn());
     }
 }

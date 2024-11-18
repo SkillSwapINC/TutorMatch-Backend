@@ -47,4 +47,12 @@ public interface TutoringSessionRepository extends JpaRepository<TutoringSession
      * @return An Optional containing the found tutoring session, or an empty Optional if not found.
      */
     Optional<TutoringSession> findById(Long id);
+
+    /**
+     * Finds tutoring sessions associated with a specific course.
+     *
+     * @param courseId The course ID.
+     * @return A list of tutoring sessions associated with the provided course.
+     */
+    List<TutoringSession> findByCourseId(Long courseId);
 }
