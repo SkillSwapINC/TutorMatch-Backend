@@ -1,7 +1,9 @@
 package com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command;
 
 
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.Course;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.DailySchedule;
+
 import java.util.List;
 
 /**
@@ -17,8 +19,9 @@ import java.util.List;
  * times for each day of the week.
  * Each {@link DailySchedule} specifies the day and available hours.
  * @param image     The URL or path to an image associated with the tutoring session.
+ * @param whatTheyWillLearn The description of what students will learn in this tutoring session.
  * @param tutorId   The ID of the tutor who offers this tutoring session.
- * @param courseId  The ID of the course associated with this tutoring session.
+ * @param course  The ID of the course associated with this tutoring session.
  */
 public record CreateTutoringSessionCommand(
         String title,
@@ -26,6 +29,8 @@ public record CreateTutoringSessionCommand(
         Double price,
         List<DailySchedule> times,
         String image,
+        String whatTheyWillLearn,
         Long tutorId,
-        Long courseId
+        Long courseId,
+        Course course
 ) {}

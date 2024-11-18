@@ -1,9 +1,7 @@
 package com.skillswap.platform.tutormatch.Users.Domain.Services;
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmail;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +22,21 @@ public interface UserQueryService {
     /**
      * Retrieves a user by their email address.
      *
-     * @param query the {@link GetUserByEmail} query containing the email address to search for
+     * @param query the {@link GetUserByEmailPassword} query containing the email address to search for
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the email and password
+     */
+    Optional<User> handle(GetUserByEmailPassword query);
+
+    /**
+     * Retrieves a user by their email address.
+     *
+     * @param query the {@link GetTutorByEmail} query containing the email address to search for
      * @return an {@link Optional} containing the {@link User} if found,
      * or empty if no user matches the email
      */
-    Optional<User> handle(GetUserByEmail query);
+
+    Optional<User> handle(GetTutorByEmail query);
 
     /**
      * Retrieves a list of all users.
@@ -37,4 +45,8 @@ public interface UserQueryService {
      * @return a {@link List} of all {@link User} objects currently stored
      */
     List<User> handle(GetAllUsersQuery query);
+
+    Optional<User> handle(GetUserById query);
+
+    Optional<User> handle(GetTutorByIdRole query);
 }

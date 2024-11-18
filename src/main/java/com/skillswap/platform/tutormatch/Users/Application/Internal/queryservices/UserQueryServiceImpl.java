@@ -2,9 +2,7 @@ package com.skillswap.platform.tutormatch.Users.Application.Internal.queryservic
 
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmail;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.*;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserQueryService;
 import com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -30,7 +28,12 @@ public class UserQueryServiceImpl implements UserQueryService {
      * @return an {@code Optional<User>} with the user if found, or an empty optional if not found.
      */
     @Override
-    public Optional<User> handle(GetUserByEmail query){
+    public Optional<User> handle(GetUserByEmailPassword query){
+        return userRepository.findByEmailAndPassword(query.emailAddress(), query.password());
+    }
+
+    @Override
+    public Optional<User> handle(GetTutorByEmail query){
         return userRepository.findByEmail(query.emailAddress());
     }
 
@@ -55,5 +58,15 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public List<User> handle(GetAllUsersQuery query) {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> handle(GetUserById query) {
+        return userRepository.findById(query.userId());
+    }
+
+    @Override
+    public Optional<User> handle(GetTutorByIdRole query) {
+        return userRepository.findByTutorIdAndRole_RoleType(query.tutorId(), query.roleType());
     }
 }

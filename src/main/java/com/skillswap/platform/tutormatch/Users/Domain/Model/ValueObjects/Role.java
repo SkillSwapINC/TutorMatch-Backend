@@ -1,23 +1,19 @@
 package com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
-public record Role(RoleType roleType, Integer tutorId) {
-    private static final AtomicInteger tutorIdCounter = new AtomicInteger(0);
+@Setter
+@Getter
+@Embeddable
+public class Role {
+    private RoleType roleType;
+
+    public Role() {}
 
     public Role(RoleType roleType) {
-        this(roleType, roleType == RoleType.teacher ? generateTutorId() : null);
+        this.roleType = roleType;
     }
 
-    private static int generateTutorId() {
-        return tutorIdCounter.incrementAndGet();
-    }
-
-    public RoleType roleType() {
-        return roleType;
-    }
-
-    public Integer tutorId() {
-        return tutorId;
-    }
 }

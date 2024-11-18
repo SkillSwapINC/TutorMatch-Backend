@@ -22,8 +22,9 @@ public class TutoringSessionResourceFromEntityAssembler {
                 entity.getPrice(),
                 entity.getTimes(),
                 entity.getImage(),
+                entity.getWhatTheyWillLearn(),
                 entity.getTutorId(),
-                entity.getCourseId()
+                entity.getCourse().getId()
         );
     }
 }

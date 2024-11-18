@@ -19,6 +19,7 @@ public class UserResourceFromEntityAssembler {
                 entity.getId(),
                 entity.getFullName(),
                 entity.getEmailAddress(),
+                entity.getPassword(),
                 entity.getAvatarUrl(),
                 entity.getGender(),
                 entity.getSemester(),

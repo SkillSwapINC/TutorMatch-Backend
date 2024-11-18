@@ -21,8 +21,10 @@ public class CreateTutoringSessionCommandFromResourceAssembler {
                 resource.price(),
                 resource.times(),
                 resource.image(),
+                resource.whatTheyWillLearn(),
                 resource.tutorId(),
-                resource.courseId()
+                resource.courseId(),
+                resource.course()
 
         );
     }

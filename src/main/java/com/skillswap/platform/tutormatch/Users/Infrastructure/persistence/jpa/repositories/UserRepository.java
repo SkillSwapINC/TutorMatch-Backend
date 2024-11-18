@@ -2,8 +2,10 @@ package com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.r
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.EmailAddress;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Password;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,6 +24,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return an {@link Optional} containing the {@link User} if found,
      * or empty if no user matches the email
      */
+    Optional<User> findByEmailAndPassword(EmailAddress email, Password password);
+
+    /**
+     * Retrieves a user by their email address.
+     *
+     * @param email the {@link EmailAddress} of the user to be retrieved
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the email
+     */
     Optional<User> findByEmail(EmailAddress email);
 
     /**
@@ -31,4 +42,31 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return a {@link List} of {@link User} objects that match the specified role
      */
     List<User> findByRoleRoleType(RoleType roleType);
+
+    /**
+     * Retrieves a user by their tutor ID.
+     *
+     * @param tutorId the tutor ID of the user to be retrieved
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the tutor ID
+     */
+    Optional<User> findByTutorId(Long tutorId);
+
+    /**
+     * Retrieves the maximum tutor ID from the User table.
+     *
+     * @return an {@link Optional} containing the maximum tutor ID,
+     * or an empty Optional if no users exist.
+     */
+    @Query("SELECT MAX(u.tutorId) FROM User u")
+    Optional<Long> findMaxTutorId();
+
+    /**
+     * Retrieves a user by their tutor ID.
+     *
+     * @param tutorId the tutor ID of the user to be retrieved
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the tutor ID
+     */
+    Optional<User> findByTutorIdAndRole_RoleType(Long tutorId, RoleType roleType);
 }

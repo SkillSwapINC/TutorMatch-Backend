@@ -1,9 +1,9 @@
 package com.skillswap.platform.tutormatch.Tutorings.Application.Internal.commandservices;
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.Semester;
-import org.springframework.transaction.annotation.Transactional;
 import com.skillswap.platform.tutormatch.Tutorings.Infrastructure.persistence.jpa.repositories.CourseRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service class for managing operations related to semesters and their associated courses.

@@ -1,6 +1,8 @@
 package com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Aggregate;
 
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.CreateTutoringSessionCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.UpdateTutoringCommand;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.Course;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Entities.DailySchedule;
 import com.skillswap.platform.tutormatch.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
@@ -12,14 +14,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Represents a tutoring session, including details such as title, description,
+ * Represents a tutoring session, including details such as courseName, description,
  * price, times for availability, and association with tutor and course.
  */
 @Getter
 @Entity
 public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSession> {
 
+    @Column(name = "title")
     private String title;
+
     private String description;
     private Double price;
 
@@ -32,9 +36,27 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
     @JoinColumn(name = "tutoring_session_id")
     private List<DailySchedule> times;
 
+    @Lob
     private String image;
+
+    private String whatTheyWillLearn;
+
+    /**
+     * The ID of the tutor associated with this tutoring session.
+     * Only users with RoleType `teacher` should have associated tutoring sessions.
+     */
+    @Column(name = "tutor_id", nullable = false)
     private Long tutorId;
-    private Long courseId;
+
+    /**
+     * Many-to-One relationship with Course, each tutoring session
+     * is associated with a specific course.
+     */
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    private int cycle;
 
     protected TutoringSession() {}
 
@@ -46,14 +68,19 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
      * @param command The command containing the details to
      * create a new tutoring session.
      */
-    public TutoringSession(CreateTutoringSessionCommand command) {
-        this.title = command.title();
+    public TutoringSession(CreateTutoringSessionCommand command,Course course) {
+        this.title = course.getName();
         this.description = command.description();
         this.price = command.price();
         this.times = command.times();
         this.image = command.image();
+        this.whatTheyWillLearn = command.whatTheyWillLearn();
         this.tutorId = command.tutorId();
-        this.courseId = command.courseId();
+        this.course = course;
+        this.cycle = course.getCycle();
+        if (!this.title.equals(course.getName())) {
+            throw new IllegalArgumentException("Course name does not match the courseId provided.");
+        }
 
         List<DailySchedule> defaultTimes = IntStream.range(0, 7)
                 .mapToObj(day -> new DailySchedule(day, new ArrayList<>()))
@@ -66,6 +93,15 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
         }
 
         this.times = defaultTimes;
+    }
+
+    public void updateTutoringSessionAttributes(UpdateTutoringCommand command) {
+        this.description = command.description();
+        this.price = command.price();
+        this.image = command.image();
+        this.whatTheyWillLearn = command.whatTheyWillLearn();
+        this.times.clear();
+        this.times.addAll(command.times());
     }
 
 }
