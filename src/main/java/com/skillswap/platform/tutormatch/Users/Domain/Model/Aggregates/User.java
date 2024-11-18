@@ -102,6 +102,10 @@ public class User extends AuditableAbstractAggregateRoot<User> {
         return email.address();
     }
 
+    public String getPassword() {
+        return password.password();
+    }
+
     public String getAvatarUrl() {
         return avatar.avatarUrl();
     }

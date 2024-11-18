@@ -4,6 +4,7 @@ import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.CreateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Command.UpdateUserCommand;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.EmailAddress;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Password;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserCommandService;
 import com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.repositories.UserRepository;
@@ -40,7 +41,8 @@ public class UserCommandServiceImpl implements UserCommandService {
     @Transactional
     public Optional<User> handle(CreateUserCommand command) {
         var emailAddress = new EmailAddress(command.email());
-        userRepository.findByEmail(emailAddress).ifPresent(user -> {
+        var password = new Password(command.password());
+        userRepository.findByEmailAndPassword(emailAddress, password).ifPresent(user -> {
             throw new IllegalArgumentException("User with this email " + command.email() + " already exists");
         });
         var user = new User(command);

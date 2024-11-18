@@ -8,6 +8,7 @@ import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleTyp
 public record UserResource(Long id,
                            String fullName,
                            String email,
+                           String password,
                            String avatarUrl,
                            String gender,
                            int semester,
